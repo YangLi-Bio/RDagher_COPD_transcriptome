@@ -1,0 +1,440 @@
+---
+title: "iPSC based disease model to study SARS-CoV2 in COPD JCI"
+author: "Yang Li"
+date: "`r format(Sys.time(), '%m/%d/%Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+---
+
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  text-align: center;
+}
+</style>
+
+
+```{r setup, include = F}
+
+knitr::opts_chunk$set(echo = TRUE)
+library(Seurat)
+library(RColorBrewer) # Provides color schemes for maps
+library(Polychrome) # Qualitative Palettes with Many Colors
+library(ggplot2)
+library(knitr)
+suppressPackageStartupMessages(library(SCINA)) # do not present the start up messages
+suppressPackageStartupMessages(library(preprocessCore))
+# A collection of pre-processing functions, e.g., Summarize the column of matrices and 
+# Quantile Normalization
+
+library(stringr)
+# There are four main families of functions in stringr:
+# 
+# 1. Character manipulation: these functions allow you to manipulate individual 
+# characters within the strings in character vectors.
+# 
+# 2. Whitespace tools to add, remove, and manipulate whitespace.
+# 
+# 3. Locale sensitive operations whose operations will vary from locale to locale.
+# 
+# 4. Pattern matching functions. These recognise four engines of pattern 
+# description. The most common is regular expressions, but there are three other tools.
+
+library(tidyverse)
+library(enrichR)
+library(DT)
+library(cowplot)
+library(clusterProfiler)
+# library(scCATCH) # Automatic Annotation on Cell Types
+library(org.Mm.eg.db)
+library(clusterProfiler)
+# library(dittoSeq) # A set of functions built to enable analysis and 
+# visualization of single-cell and bulk RNA-sequencing data by novice
+
+#library(ggrepel)
+#library(ggfortify)
+#library(QUBIC)
+#library(DESeq2)
+#library(pheatmap)
+#library(patchwork)
+#library(monocle)
+#library(DelayedArray)
+#library(DelayedMatrixStats)
+#library(org.Mm.eg.db)
+#library(VennDiagram)
+
+knitr::opts_knit$set(root.dir = "/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19")
+setwd("/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19")
+# source("/fs/ess/PCON0022/liyang/Dr_Bai/spleen_bone_marrow/functions.R")
+
+```
+
+
+# Outline of the analysis pipeline
+
+In this project, we plan to conduct the analyses according to the following pipeline:
+
++ Predict DEGs and their enriched GO terms and KEGG pathways in AT2 and Fibroblasts from healthy samples infected by COVID-19
+
++ Now that there is no scRNA-Seq samples of COPD patients followed by infection of COVID-19, we integrate a COVID-19 dataset and a COPD dataset using Seurat v.4.0.5. The COVID-19 data comes from the reference "A molecular single-cell lung atlas of lethal COVID-19", while the COPD data is from the reference "Single-cell RNA-seq reveals ectopic and aberrant lung-resident cell populations in idiopathic pulmonary fibrosis".
+
++ Predict DEGs and their enriched GO terms and KEGG pathways in AT2 and Fibroblasts from the integrated data
+
++ Please Dr. Ghaedi's team compare these DEGs and GO terms/KEGG pathways with that predicted in the iPSC samples
+
+
+# Analysis of the COVID-19 data
+
+The following analyses will be conducted:
+
++ Perform DEG analyses for AT2 and Fibroblasts by default parameters
+
++ Identify GO terms and KEGG pathways enriched by DEGs of the two cell types
+
+
+```{r, echo = F, eval = F, message = F, warning = F, error = F}
+
+covid <- qs::qread("covid.qsave")
+Idents(covid) <- covid$cell.type
+DimPlot(covid, reduction = "umap")
+# Plot.cluster2D(covid, pt_size = 0.4,
+#                      txt = "Cell types")
+
+```
+
+
+## Analyses of AT2
+
+### DEGs of AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+covid.AT2.degs <- qs::qread("covid_AT2_degs.qsave")
+DT::datatable(covid.AT2.degs, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO biological process terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.BP <- read.csv("covid_AT2_GO_BP.csv")
+DT::datatable(AT2.BP, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO cellular components terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.CC <- read.csv("covid_AT2_GO_CC.csv")
+DT::datatable(AT2.CC, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO molecular functions terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.MF <- read.csv("covid_AT2_GO_MF.csv")
+DT::datatable(AT2.MF, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### KEGG pathways terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.KEGG <- read.csv("covid_AT2_KEGG.csv")
+DT::datatable(AT2.KEGG, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+## Analyses of Fibroblasts
+
+### DEGs of Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+covid.fibro.degs <- qs::qread("covid_Fibroblasts_degs.qsave")
+DT::datatable(covid.fibro.degs, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO biological process terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.BP <- read.csv("covid_Fibroblasts_GO_BP.csv")
+DT::datatable(fibro.BP, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO cellular components terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.CC <- read.csv("covid_Fibroblasts_GO_CC.csv")
+DT::datatable(fibro.CC, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO molecular functions terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.MF <- read.csv("covid_Fibroblasts_GO_MF.csv")
+DT::datatable(fibro.MF, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### KEGG pathways terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.KEGG <- read.csv("covid_Fibroblasts_KEGG.csv")
+DT::datatable(fibro.KEGG, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+# Analysis of the integrated data based on COVID-19 and COPD
+
+The following analyses will be conducted:
+
++ Perform DEG analyses for AT2 and Fibroblasts by default parameters
+
++ Identify GO terms and KEGG pathways enriched by DEGs of the two cell types
+
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+integrated <- qs::qread("integrated.qsave")
+
+Idents(integrated) <- integrated$diseases
+# Plot.cluster2D(integrated, pt_size = 0.4, 
+#                      txt = "Data sources")
+DimPlot(integrated, reduction = "umap")
+
+Idents(integrated) <- integrated$cell.type
+# Plot.cluster2D(integrated, pt_size = 0.4, 
+#                      txt = "Cell types")
+DimPlot(integrated, reduction = "umap")
+
+
+```
+
+
+## Analyses of AT2
+
+### DEGs of AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+integrated.AT2.degs <- qs::qread("integrated_AT2_degs.qsave")
+DT::datatable(integrated.AT2.degs, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO biological process terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.BP <- read.csv("integrated_AT2_GO_BP.csv")
+DT::datatable(AT2.BP, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO cellular components terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.CC <- read.csv("integrated_AT2_GO_CC.csv")
+DT::datatable(AT2.CC, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO molecular functions terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.MF <- read.csv("integrated_AT2_GO_MF.csv")
+DT::datatable(AT2.MF, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### KEGG pathways terms enriched by AT2
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+AT2.KEGG <- read.csv("integrated_AT2_KEGG.csv")
+DT::datatable(AT2.KEGG, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+## Analyses of Fibroblasts
+
+### DEGs of Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+integrated.fibro.degs <- qs::qread("integrated_Fibroblasts_degs.qsave")
+DT::datatable(integrated.fibro.degs, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO biological process terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.BP <- read.csv("integrated_Fibroblasts_GO_BP.csv")
+DT::datatable(fibro.BP, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO cellular components terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.CC <- read.csv("integrated_Fibroblasts_GO_CC.csv")
+DT::datatable(fibro.CC, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### GO molecular functions terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.MF <- read.csv("integrated_Fibroblasts_GO_MF.csv")
+DT::datatable(fibro.MF, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+### KEGG pathways terms enriched by Fibroblasts
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+fibro.KEGG <- read.csv("integrated_Fibroblasts_KEGG.csv")
+DT::datatable(fibro.KEGG, 
+              extensions = 'Buttons', options = list(
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  ))
+
+```
+
+
+# Session info
+
+The versions of R packages used is this analysis are presented below.
+
+```{r, echo = F, eval = T, message = F, warning = F, error = F}
+
+sessionInfo()
+
+```
