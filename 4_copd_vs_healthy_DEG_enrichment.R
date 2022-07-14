@@ -29,13 +29,14 @@ dbs <-
 
 # Load data
 setwd("/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19")
-integrated <- qs::qread("integrated.qsave")
+integrated <- qs::qread("/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19/Rfiles/integrated.qsave")
 Idents(integrated) <- integrated$cell.type
 integrated.AT2 <- subset(integrated, idents = "AT2")
 ncol(integrated.AT2)
-covid <- qs::qread("covid.qsave")
+covid <- qs::qread("/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19/Rfiles/covid.qsave")
 Idents(covid) <- covid$cell.type
 covid.AT2 <- subset(covid, idents = "AT2")
+ncol(covid.AT2)
 
 
 # Set meta data
@@ -61,13 +62,20 @@ AT2.ll <- lapply(X = AT2.ll, FUN = function(x) {
 features <- SelectIntegrationFeatures(object.list = AT2.ll)
 obj.anchors <- FindIntegrationAnchors(object.list = AT2.ll, anchor.features = features)
 integrated.again.AT2 <- IntegrateData(anchorset = obj.anchors)
+qs::qsave(integrated.again.AT2, 
+          "/fs/ess/PCON0022/liyang/astrazeneca/copd_covid-19/Rfiles/AT2_integrated_again.qsave")
 
 
 # DEG analysis
 DefaultAssay(integrated.again.AT2) <- "RNA"
 Idents(integrated.again.AT2) <- integrated.again.AT2$new.id
-copd.healthy.DEGs <- FindMarkers(integrated.again.AT2, ident.1 = "copd", ident.2 = "healthy", verbose = FALSE)
+copd.healthy.DEGs <- FindMarkers(integrated.again.AT2, ident.1 = "healthy", 
+                                 ident.2 = "copd", verbose = FALSE)
 head(copd.healthy.DEGs)
+dim(copd.healthy.DEGs)
+range(copd.healthy.DEGs$p_val_adj)
+range(copd.healthy.DEGs$avg_log2FC)
+qs::qsave(copd.healthy.DEGs, "/DEGs_AT2_COPD_healthy.qsave")
 selected.DEGs <- copd.healthy.DEGs[copd.healthy.DEGs$p_val_adj < 0.01,]
 write.csv(copd.healthy.DEGs, "COPD_healthy_DEGs.csv")
 iAT2.DEGs <- read.csv("COPD_healthy_DEGs_iAT2.csv")
