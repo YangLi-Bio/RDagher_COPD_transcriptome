@@ -1,0 +1,77 @@
+
+This module will switch Compiler environment to gnu/9.1.0 and load mkl/2019.0.5
+for R/4.1.0
+
+
+Lmod is automatically replacing "intel/19.0.5" with "gnu/9.1.0".
+
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mvapich2/2.3.3
+
+Attaching SeuratObject
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+ [1] "cluster_name"    "gene"            "score"           "logfc"          
+ [5] "pval"            "adj_pval"        "rank_in_cluster" "volcano_logfc"  
+ [9] "volcano_adjp"    "color"           "logpv"          
+[1] 4999   11
+[1] -0.07491686 30.68418300
+[1] 1.537789e-191  1.000000e+00
+ [1] "cluster_name"    "gene"            "score"           "logfc"          
+ [5] "pval"            "adj_pval"        "rank_in_cluster" "volcano_logfc"  
+ [9] "volcano_adjp"    "color"           "logpv"          
+[1] 5000   11
+[1] -0.08030469 30.06916000
+[1] 7.636698e-100  1.000000e+00
+ [1] "cluster_name"    "gene"            "score"           "logfc"          
+ [5] "pval"            "adj_pval"        "rank_in_cluster" "volcano_logfc"  
+ [9] "volcano_adjp"    "color"           "logpv"          
+[1] 5000   11
+[1] -0.1588477 29.2224960
+[1] 3.148274e-66 1.000000e+00
+     cluster0 cluster4 cluster5
+[1,]     4999     5000     5000
+[2,]       11       11       11
+[1]  45947 165759
+[1] "orig.ident"   "nCount_RNA"   "nFeature_RNA" "Disease"      "cell.type"   
+[1] "Control" "COPD"   
+ [1] "ncMonocyte"          "Macrophage_Alveolar" "NK"                 
+ [4] "cMonocyte"           "Lymphatic"           "Macrophage"         
+ [7] "Fibroblast"          "Basal"               "Myofibroblast"      
+[10] "Multiplet"           "cDC2"                "B"                  
+[13] "VE_Venous"           "T"                   "ATII"               
+[16] "ATI"                 "VE_Capillary_A"      "VE_Arterial"        
+[19] "Ciliated"            "Club"                "VE_Capillary_B"     
+[22] "B_Plasma"            "ILC_A"               "T_Cytotoxic"        
+[25] "Goblet"              "T_Regulatory"        "Mesothelial"        
+[28] "ILC_B"               "SMC"                 "cDC1"               
+[31] "DC_Langerhans"       "Mast"                "pDC"                
+[34] "DC_Mature"           "VE_Peribronchial"    "Pericyte"           
+[37] "PNEC"                "Ionocyte"            "Aberrant_Basaloid"  
+[1] "Control" "COPD"   
+ [1] ncMonocyte          Macrophage_Alveolar NK                 
+ [4] cMonocyte           Lymphatic           Macrophage         
+ [7] Fibroblast          Basal               Myofibroblast      
+[10] Multiplet           cDC2                B                  
+[13] VE_Venous           T                   ATII               
+[16] ATI                 VE_Capillary_A      VE_Arterial        
+[19] Ciliated            Club                VE_Capillary_B     
+[22] B_Plasma            ILC_A               T_Cytotoxic        
+[25] Goblet              T_Regulatory        Mesothelial        
+[28] ILC_B               SMC                 cDC1               
+[31] DC_Langerhans       Mast                pDC                
+[34] DC_Mature           VE_Peribronchial    Pericyte           
+[37] PNEC                Ionocyte            Aberrant_Basaloid  
+39 Levels: ncMonocyte Macrophage_Alveolar NK cMonocyte Lymphatic ... Aberrant_Basaloid
+Error: Finished DEG prediction via bimodal distribution.
+Execution halted
