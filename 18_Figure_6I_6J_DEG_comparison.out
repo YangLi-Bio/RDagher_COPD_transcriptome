@@ -1,0 +1,153 @@
+
+This module will switch Compiler environment to gnu/9.1.0 and load mkl/2019.0.5
+for R/4.1.0
+
+
+Lmod is automatically replacing "intel/19.0.5" with "gnu/9.1.0".
+
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mvapich2/2.3.3
+
+Attaching SeuratObject
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+[1] 19148    10
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000206585 ENSG00000206585.1      RNA, varia… snRNA        <NA>          
+2 ENSG00000285330 ENSG00000285330.1      novel prot… protein_cod… <NA>          
+3 ENSG00000268173 ENSG00000268173.3      novel prot… protein_cod… <NA>          
+4 ENSG00000267881 ENSG00000267881.2      novel prot… protein_cod… <NA>          
+5 ENSG00000276161 ENSG00000276161.1      small nucl… snoRNA       <NA>          
+6 ENSG00000263620 ENSG00000263620.1      novel prot… protein_cod… <NA>          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 5.32254e-06 1.00000e+00
+[1] 2.327694e-04 2.317874e+03
+[1] 661  10
+[1] 17787    10
+[1] 16450    10
+[1] 593  10
+[1] 19148    10
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000285238 ENSG00000285238.2      novel tran… protein_cod… <NA>          
+2 ENSG00000270136 ENSG00000270136.6      MICOS10-NB… protein_cod… <NA>          
+3 ENSG00000254870 ENSG00000254870.5      ATP6V1G2-D… protein_cod… <NA>          
+4 ENSG00000259040 ENSG00000259040.5      BLOC1S5-TX… protein_cod… <NA>          
+5 ENSG00000186832 ENSG00000186832.9      keratin 16… protein_cod… 3868          
+6 ENSG00000162344 ENSG00000162344.4      fibroblast… protein_cod… 9965          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 9.833899e-05 1.000000e+00
+[1] 7.387392e-04 1.092081e+03
+[1] 246  10
+[1] 18197    10
+[1] 16450    10
+[1] 189  10
+[1] 19148    10
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000261796 ENSG00000261796.1      ISY1-RAB43… protein_cod… 100534599     
+2 ENSG00000267881 ENSG00000267881.2      novel prot… protein_cod… <NA>          
+3 ENSG00000171560 ENSG00000171560.16     fibrinogen… protein_cod… 2243          
+4 ENSG00000171557 ENSG00000171557.17     fibrinogen… protein_cod… 2266          
+5 ENSG00000248101 ENSG00000248101.2      novel tran… lncRNA       <NA>          
+6 ENSG00000261459 ENSG00000261459.1      novel tran… protein_cod… <NA>          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 9.403816e-06 1.000000e+00
+[1] 9.293109e-04 3.482898e+03
+[1] 68 10
+[1] 18957    10
+[1] 16450    10
+[1] 49 10
+[1] 1517    5
+             p_val avg_log2FC pct.1 pct.2 p_val_adj
+NEGR1            0  -1.114848 0.282 0.541         0
+ADAMTSL4-AS1     0  -1.557342 0.041 0.210         0
+AL031599.1       0  -1.761332 0.106 0.385         0
+IL1R1            0   1.001640 0.615 0.253         0
+COL3A1           0   1.324701 0.716 0.315         0
+PER2             0  -1.487619 0.033 0.196         0
+[1] -2.315386  2.034663
+[1] 0 1
+[1] 1326    5
+[1] 853   5
+[1] 853   5
+[1] 87  5
+[1] 473   5
+[1] 853   5
+[1] 473   5
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000075043 ENSG00000075043.18     potassium … protein_cod… 3785          
+2 ENSG00000206585 ENSG00000206585.1      RNA, varia… snRNA        <NA>          
+3 ENSG00000267368 ENSG00000267368.1      uroplakin … protein_cod… 100134938     
+4 ENSG00000134121 ENSG00000134121.10     cell adhes… protein_cod… 10752         
+5 ENSG00000181638 ENSG00000181638.19     ZFP41 zinc… protein_cod… 286128        
+6 ENSG00000113721 ENSG00000113721.14     platelet d… protein_cod… 5159          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 593  10
+[1] 2.327694e-04 2.317874e+03
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000261796 ENSG00000261796.1      ISY1-RAB43… protein_cod… 100534599     
+2 ENSG00000149403 ENSG00000149403.12     glutamate … protein_cod… 2900          
+3 ENSG00000270136 ENSG00000270136.6      MICOS10-NB… protein_cod… <NA>          
+4 ENSG00000275882 ENSG00000275882.1      inhibitor … unprocessed… <NA>          
+5 ENSG00000254870 ENSG00000254870.5      ATP6V1G2-D… protein_cod… <NA>          
+6 ENSG00000167749 ENSG00000167749.11     kallikrein… protein_cod… 9622          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 189  10
+# A tibble: 6 × 10
+  ensembl_gene_id ensembl_gene_id_versi… description gene_biotype entrezgene_ids
+  <chr>           <chr>                  <chr>       <chr>        <chr>         
+1 ENSG00000261796 ENSG00000261796.1      ISY1-RAB43… protein_cod… 100534599     
+2 ENSG00000165194 ENSG00000165194.15     protocadhe… protein_cod… 57526         
+3 ENSG00000267368 ENSG00000267368.1      uroplakin … protein_cod… 100134938     
+4 ENSG00000259040 ENSG00000259040.5      BLOC1S5-TX… protein_cod… <NA>          
+5 ENSG00000110975 ENSG00000110975.8      synaptotag… protein_cod… 341359        
+6 ENSG00000171560 ENSG00000171560.16     fibrinogen… protein_cod… 2243          
+# … with 5 more variables: hgnc_ids <chr>, hgnc_symbols <chr>, PValue <dbl>,
+#   FDR <dbl>, FC <dbl>
+[1] 49 10
+[1]  34546 116313
+ [1] "Airway epithelial cells" "AT1"                    
+ [3] "AT2"                     "B cells"                
+ [5] "CD4+ T cells"            "CD8+ T cells"           
+ [7] "Cycling NK/T cells"      "Dendritic cells"        
+ [9] "Endothelial cells"       "Fibroblasts"            
+[11] "Macrophages"             "Mast cells"             
+[13] "Monocytes"               "Neuronal cells"         
+[15] "NK cells"                "Other epithelial cells" 
+[17] "Plasma cells"            "Smooth muscle"          
+[19] "Tregs"                  
+[1]  34546 116313
+ [1] "ensembl_gene_id"         "ensembl_gene_id_version"
+ [3] "description"             "gene_biotype"           
+ [5] "entrezgene_ids"          "hgnc_ids"               
+ [7] "hgnc_symbols"            "PValue"                 
+ [9] "FDR"                     "FC"                     
+[1] 16443 16443 16443
+[1] "RNA"
+[1] 15375
+Error: unexpected ')' in "ste0(R.dir, "DEGs_COVID_ctr_bimod.qsave"))"
+Execution halted
